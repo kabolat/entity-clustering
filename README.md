@@ -7,7 +7,10 @@ clustered using statistical distances. Cluster quantiles support dataset
 condensation and missing-value imputation.
 
 `paper-v1` is the immutable tag for the historical paper implementation. The
-current codebase is its UV-managed reproducibility and reuse successor.
+current codebase is its UV-managed reproducibility and reuse successor. The
+historical exploratory scripts and notebooks are intentionally available only
+from that tag; the maintained interface is the package CLI and the executable
+example notebook.
 
 ## Quick start
 
@@ -59,7 +62,9 @@ only when the stored resolved configuration hash is identical.
 See [scientific documentation](docs/scientific/method_and_assumptions.md), the
 [usage guide](docs/technical/usage_guide.md), and the
 [configuration](docs/technical/configuration_reference.md) and
-[artifact references](docs/technical/artifact_reference.md).
+[artifact references](docs/technical/artifact_reference.md). Selected
+historical paper figures are retained as
+[reference artifacts](docs/reference/paper-v1/README.md).
 
 ## Validation
 

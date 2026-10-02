@@ -13,4 +13,3 @@ __pycache__/
 !/artifacts/.gitkeep
 /runs/*
 !/runs/.gitkeep
-/results/*.csv
