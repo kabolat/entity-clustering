@@ -1,0 +1,15 @@
+kind: study
+id: paper_v1
+base: ../bases/utrecht_zenodo_v1.yaml
+method: ../methods/entity_embedding.yaml
+evaluation: ../evaluations/standard.yaml
+seed: 2112
+baselines: [pooled, physics]
+runs_dir: ../../runs
+sweep:
+  number_clusters: [11, 12, 13, 14, 15]
+  number_topics: [4, 5, 6, 7, 8, 9, 10]
+  wording_granularity: [100, 250, 500, 1000]
+  number_lower_dims: [96]
+  distance_measures: [symmetric_kl, bhattacharyya]
+  linkages: [average, complete]

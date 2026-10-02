@@ -1,0 +1,5 @@
+extends: entity_embedding.yaml
+id: example
+encoder:
+  max_iter: 20
+  evaluate_every: 0

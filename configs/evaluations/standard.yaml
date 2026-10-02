@@ -1,0 +1,5 @@
+kind: evaluation
+id: standard
+quantiles: [0.05, 0.10, 0.25, 0.40, 0.50, 0.60, 0.75, 0.90, 0.95]
+modes: [vanilla, leave_one_out]
+min_cluster_size: 2

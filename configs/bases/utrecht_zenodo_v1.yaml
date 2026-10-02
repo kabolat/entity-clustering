@@ -1,0 +1,13 @@
+kind: base
+id: utrecht_zenodo_v1
+input:
+  profiles_csv: ../../artifacts/prepared/utrecht_zenodo_v1_daily_15min.csv
+  metadata_csv: ../../data/zenodo/metadata.csv
+  capacity_column: estimated_ac_capacity
+source:
+  raw_csv: ../../data/zenodo/filtered_pv_power_measurements_ac.csv
+  record_url: https://zenodo.org/records/6906504
+  expected_md5: 13896fef43016d4f08cf671f7f37af4b
+  timestamp_column: null
+  chunksize: 100000
+  output_profiles_csv: ../../artifacts/prepared/utrecht_zenodo_v1_daily_15min.csv

@@ -1,0 +1,7 @@
+kind: base
+id: example
+input:
+  profiles_csv: ../../data/example/X_daily_15min_example.csv
+  metadata_csv: ../../data/example/metadata.csv
+  metadata_id_template: "ID{:03d}"
+  capacity_column: estimated_ac_capacity

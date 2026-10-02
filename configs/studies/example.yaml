@@ -1,0 +1,15 @@
+kind: study
+id: example
+base: ../bases/example.yaml
+method: ../methods/example.yaml
+evaluation: ../evaluations/standard.yaml
+seed: 2112
+baselines: [pooled, physics]
+runs_dir: ../../runs
+sweep:
+  number_clusters: [1]
+  number_topics: [2]
+  wording_granularity: [16]
+  number_lower_dims: [96]
+  distance_measures: [bhattacharyya]
+  linkages: [average]

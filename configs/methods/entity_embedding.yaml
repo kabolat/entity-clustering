@@ -1,0 +1,8 @@
+kind: method
+id: entity_embedding
+encoder:
+  max_iter: 1000
+  learning_method: online
+  batch_size: 64
+  evaluate_every: 5
+  perplexity_tolerance: 0.1
