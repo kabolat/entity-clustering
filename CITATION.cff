@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the accompanying paper and data source."
+title: "Rooftop PV entity clustering"
+type: software
+authors:
+  - family-names: Bölat
+    given-names: Kutay
+license: MIT
+repository-code: "https://github.com/kabolat/entity-clustering"
+preferred-citation:
+  type: article
+  title: "Clustering Rooftop PV Systems via Probabilistic Embeddings"
+  authors:
+    - family-names: Bölat
+      given-names: Kutay
+    - family-names: Alskaif
+      given-names: Tarek
+    - family-names: Palensky
+      given-names: Peter
+    - family-names: Tindemans
+      given-names: Simon H.
+  year: 2025
+  url: "https://arxiv.org/abs/2505.10699"
+references:
+  - type: dataset
+    title: "Open-source quality control routine and multi-year power generation data of 175 PV systems"
+    authors:
+      - family-names: Visser
+        given-names: Lennard R.
+      - family-names: Elsinga
+        given-names: Boudewijn
+      - family-names: AlSkaif
+        given-names: Tarek
+      - family-names: van Sark
+        given-names: Wilfried G. J. H. M.
+    doi: 10.5281/zenodo.6906504

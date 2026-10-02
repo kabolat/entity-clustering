@@ -1,82 +1,78 @@
-# Rooftop PV Panel Clustering
+# Rooftop PV entity clustering
 
-This repository implements the method proposed in the paper [Clustering Rooftop PV Systems via Probabilistic Embeddings (Bölat et al. 2023)](https://arxiv.org/abs/2505.10699) for clustering rooftop photovoltaic (PV) generation profiles. We provide example data and scripts to reproduce the analysis and/or apply the method to your own data. Full data (hourly 15 min resolution) for ∼175 PV systems over 1461 days can be obtained from https://zenodo.org/records/6906504.
+This repository implements the probabilistic entity-embedding clustering method
+from [Bölat et al. (2025)](https://arxiv.org/abs/2505.10699): daily PV profiles
+are converted to words, embedded as Dirichlet distributions through LDA, then
+clustered using statistical distances. Cluster quantiles support dataset
+condensation and missing-value imputation.
 
-## 🔢 Example Data Format
+`paper-v1` is the immutable tag for the historical paper implementation. The
+current codebase is its UV-managed reproducibility and reuse successor.
 
-We include a small example in `data/X_daily_15min_example.csv` spanning 4 years for 2 PV systems. The columns `X_0` … `X_95` correspond to the 96 15 min slices over one day, repeated for each day in sequence. The `DATE` and `ID` columns indicate the date and system ID. Metadata in `data/metadata.csv` provides capacities, tilt, azimuth, etc.
+## Quick start
 
-```csv
-X_0,X_1,…,X_95,DATE,ID
-0.0,0.0,…,0.0,2014-01-01,1
-0.0,0.0129,…,0.4931,2014-01-02,1
-…
-```
-
-
-## 🖥️ Usage
-
-### Jupyter Notebook
-
-Open `pv_clustering.ipynb` to:
-- Visualize raw, scaled, and log-normalized profiles
-- Compute data availability
-- Apply dimensionality reduction & clustering
-- Plot cluster centers and time series
-
-### Scripts
-
-- `collect_results_vanilla.py`: evaluates the dispersion scores of different clustering methods on full dataset and saves results to `results/`
-- `collect_results_loo.py`: evaluates the sensitivity of clustering methods to the removal of individual systems (leave-one-out) and saves results to `results/`
+Python 3.11 and [uv](https://docs.astral.sh/uv/) are required.
 
 ```bash
-python collect_results_vanilla.py
-python collect_results_loo.py
+uv sync --group dev
+uv run entity-clustering run --config configs/studies/example.yaml --run-id example
+uv run entity-clustering report --run-root runs/example/example
 ```
 
-## 📈 Results
+The bundled two-system dataset is a smoke-test example, so its configuration
+uses one cluster. Outputs are written under `runs/<study>/<run-id>/` and are
+ignored by Git.
 
-Generated figures and CSVs are in `results/`:
-- Figures: `ablation.png`, `clusters_and_methods.png`, `quantile_representation.png`
-- CSVs: `results_vanilla.csv`, `results_loo.csv`
+## Paper workflow
 
-## 🔗 Dependencies
-
-- Python 3.7+
-- pandas, numpy, matplotlib, seaborn
-- scikit-learn
-- fastnanquantile
-- tqdm
-
-Install via:
+The paper study needs the separately downloaded Utrecht source dataset. Place
+`filtered_pv_power_measurements_ac.csv` and `metadata.csv` in `data/zenodo/`,
+then create the derived daily input and run the declared sweep:
 
 ```bash
-pip install -r requirements.txt
+uv run entity-clustering prepare-data --config configs/bases/utrecht_zenodo_v1.yaml
+uv run entity-clustering run --config configs/studies/paper_v1.yaml --run-id paper-v1
+uv run entity-clustering report --run-root runs/paper_v1/paper-v1
 ```
 
+The preparation command averages UTC one-minute AC values in 15-minute bins;
+a bin with fewer than 15 observations is retained as missing. It records the
+source checksums beside the derived CSV. The source dataset is not redistributed
+here; cite and download it from its [Zenodo record](https://doi.org/10.5281/zenodo.6906504).
 
+## Configuration and outputs
 
-## 📄 Citation
-If you use this code or data in your research, please cite the following paper:
+Scientific choices are split into four small YAML documents:
 
+```text
+configs/bases/        input data and source preparation
+configs/methods/      LDA settings
+configs/evaluations/  quantiles and score modes
+configs/studies/      complete declared hyperparameter sweeps
 ```
-@misc{bölat2025clusteringrooftoppvsystems,
-      title={Clustering Rooftop PV Systems via Probabilistic Embeddings}, 
-      author={Kutay Bölat and Tarek Alskaif and Peter Palensky and Simon Tindemans},
-      year={2025},
-      eprint={2505.10699},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2505.10699}, 
-}
+
+Each run records its resolved configuration, SHA-256 configuration and input
+hashes, Git commit/tag, installed package versions, seed, log, fitted models,
+cluster assignments, scores, and skipped invalid trials. `--resume` is accepted
+only when the stored resolved configuration hash is identical.
+
+See [scientific documentation](docs/scientific/method_and_assumptions.md), the
+[usage guide](docs/technical/usage_guide.md), and the
+[configuration](docs/technical/configuration_reference.md) and
+[artifact references](docs/technical/artifact_reference.md).
+
+## Validation
+
+```bash
+uv run ruff check src tests
+uv run pytest
 ```
 
-## 📜 License
+These checks use the small example and synthetic data; they do not download or
+run the multi-gigabyte paper experiment.
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+## Citation and license
 
-
-## Acknowledgements
-This software is developed under the H2020-MSCA-ITN [Innovative Tools for Cyber-Physical Systems (InnoCyPES)](https://innocypes.eu/) project. The project is funded by the European Union's Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 956433.
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Flag_of_Europe.svg" alt="drawing" width="150"/> 
+Please cite the method and source dataset as described in
+[CITATION.cff](CITATION.cff). The source code is MIT-licensed; see
+[LICENSE](LICENSE).

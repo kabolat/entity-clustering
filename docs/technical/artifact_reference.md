@@ -1,0 +1,21 @@
+# Artifact reference
+
+`artifacts/prepared/` holds generated daily CSVs and their source provenance.
+It is ignored because the paper input is derived from a large third-party file.
+
+Each `runs/<study>/<run-id>/` directory contains:
+
+```text
+resolved_config.yaml  fully resolved scientific declaration
+run_metadata.json     hashes, environment, Git state, and run status
+run.log               timestamped progress
+models/               fitted word/LDA models with JSON settings
+assignments.csv       system-to-cluster assignment for every valid trial
+results.csv           quantile-loss observations for all evaluation modes
+skipped_trials.csv    invalid configurations and their reasons
+report/               optional aggregate CSV and figure
+```
+
+Archive a tagged release, `pyproject.toml`, `uv.lock`, the applicable resolved
+configuration, and the complete run tree together. The raw Zenodo input is
+referenced by checksum and DOI rather than copied into the release.
